@@ -12,7 +12,11 @@ session = cnx.session()
 session.sql("use warehouse COMPUTE_WH").collect()     # new as of 10 pm
 
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'),col('SEARCH_ON'))
-st.dataframe(data=my_dataframe,use_container_width=True)
+# st.dataframe(data=my_dataframe,use_container_width=True)
+# st.stop()
+# Convert the Snowpark dataframe to a Pandas dataframe so we can use the LOC function
+pd_df=my_dataframe.to_pandas()
+st.dataframe(pd_df)
 st.stop()
 
 ingredients_list = st.multiselect(
@@ -29,8 +33,13 @@ if ingredients_list: # if ingredients_list is not null: then do everything below
     ingredients_string =''
     for each_fruit in ingredients_list:
         ingredients_string += each_fruit + ' '
+        
+            search_on=pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
+            st.write('The search value for ', fruit_chosen,' is ', search_on, '.')
+
         st.subheader(each_fruit + 'Nutrition Information')
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/" + each_fruit)
+        # fruitvice_response = requests.get("https://fruitvice.com/api/fruit/" + each_fruit)
         sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=True)
 
     my_insert_stmt = """insert into smoothies.public.orders(ingredients,name_on_order)
