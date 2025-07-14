@@ -1,5 +1,6 @@
 # Import python packages
 import streamlit as st
+# from snowflake.snowpark.context import get_session = get_active_session()
 from snowflake.snowpark.functions import col
 import requests
 
@@ -22,7 +23,7 @@ st.write("The name on your Smoothie will be:", name_on_order)
 if ingredients_list: # if ingredients_list is not null: then do everything below this line that is indented. 
     st.write("You selected:", ingredients_list) # Numbered, vertical
     ingredients_string =''
-    for fruit_chosen in ingredients_list:
+    for each_fruit in ingredients_list:
         ingredients_string += each_fruit + ' '
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
         sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=true)
