@@ -29,7 +29,7 @@ st.write("The name on your Smoothie will be:", name_on_order)
 
 if ingredients_list: # if ingredients_list is not null: then do everything below this line that is indented. 
     # st.write("You selected:", ingredients_list) # Numbered, vertical
-    # ingredients_string =''
+    ingredients_string =''
     for fruit_chosen in ingredients_list:
         ingredients_string += fruit_chosen + ' '
         search_on=pd_df.loc[pd_df['FRUIT_NAME'] == fruit_chosen, 'SEARCH_ON'].iloc[0]
