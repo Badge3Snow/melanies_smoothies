@@ -1,4 +1,4 @@
-# Import python packages
+ # Import python packages
 import streamlit as st
 # from snowflake.snowpark.context import get_session = get_active_session()
 from snowflake.snowpark.functions import col
@@ -28,7 +28,7 @@ if ingredients_list: # if ingredients_list is not null: then do everything below
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
         sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=True)
 
-    my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
+    my_insert_stmt = """use warehouse COMPUTE_WH;  insert into smoothies.public.orders(ingredients,name_on_order)
                 values ('""" + ingredients_string + """','""" + name_on_order + """')"""
     time_to_insert = st.button('Submit Order')
     
