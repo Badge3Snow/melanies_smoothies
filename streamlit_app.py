@@ -38,6 +38,4 @@ if ingredients_list: # if ingredients_list is not null: then do everything below
         session.sql(my_insert_stmt).collect()        
         st.success((name_on_order, ' your Smoothie is ordered!'), icon="✅")
 
-
-
-
+ 
