@@ -26,7 +26,7 @@ if ingredients_list: # if ingredients_list is not null: then do everything below
     for each_fruit in ingredients_list:
         ingredients_string += each_fruit + ' '
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
-        sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=true)
+        sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=True)
 
     my_insert_stmt = """ insert into smoothies.public.orders(ingredients,name_on_order)
                 values ('""" + ingredients_string + """','""" + name_on_order + """')"""
