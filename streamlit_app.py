@@ -9,6 +9,8 @@ st.write("""Choose the fruits you want in your smoothie!""")
 
 cnx = st.connection("snowflake")
 session = cnx.session()
+session.sql("use warehouse COMPUTE_WH").collect()     # new as of 10 pm
+
 my_dataframe = session.table("smoothies.public.fruit_options").select(col('FRUIT_NAME'))
 
 ingredients_list = st.multiselect(
@@ -28,7 +30,7 @@ if ingredients_list: # if ingredients_list is not null: then do everything below
         smoothiefroot_response = requests.get("https://my.smoothiefroot.com/api/fruit/watermelon")
         sf_df = st.dataframe(smoothiefroot_response.json(),use_container_width=True)
 
-    my_insert_stmt = """use warehouse COMPUTE_WH;  insert into smoothies.public.orders(ingredients,name_on_order)
+    my_insert_stmt = """insert into smoothies.public.orders(ingredients,name_on_order)
                 values ('""" + ingredients_string + """','""" + name_on_order + """')"""
     time_to_insert = st.button('Submit Order')
     
